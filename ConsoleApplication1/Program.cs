@@ -8,48 +8,17 @@ namespace ConsoleApplication1
     {
         public static void Main(string[] args)
         {
-            char operation;
             double num1, num2;
-
-            while (true)
-            {
-                Console.Write("Write first number: ");
-                string Num1 = Console.ReadLine();
-                bool ConvertToDouble = CheckConvertToDouble(Num1);
-                if (ConvertToDouble)
-                {
-                    num1 = Convert.ToDouble(Num1);
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Error. Try again: ");
-                    Console.ReadLine();
-                }
-            }
-
-            while (true)
-            {
-                Console.Write("Enter the symbol (+, -, *, /): ");
-                string OP = Console.ReadLine();
-                operation = Convert.ToChar(OP);
-                if (CheckOperation(operation))
-                {
-                    break;
-                }
-                else
-                {
-                    Console.WriteLine("Error");
-                    Console.ReadLine();
-                }
-            }
+            char operation;
+            
+            checkConverting(out num1, out operation);
 
             while (true)
             {
                 Console.Write("Write second number: ");
                 string Num2 = Console.ReadLine();
 
-                bool ConvertToDouble = CheckConvertToDouble(Num2);
+                bool ConvertToDouble = checkConvertToDouble(Num2);
                 if (!ConvertToDouble)
                 {
                     Console.WriteLine("Error. Try again: ");
@@ -61,7 +30,7 @@ namespace ConsoleApplication1
 
                 if (num2 == 0 && operation == '/')
                 {
-                    Console.Write("Can't divide by zero");
+                    Console.WriteLine("Can't divide by zero");
                 }
                 else
                 {
@@ -89,14 +58,13 @@ namespace ConsoleApplication1
 
             Console.WriteLine("Result: " + result);
             Console.ReadLine();
-            Console.ReadKey();
         }
 
-        static bool CheckConvertToDouble(string arg)
+        static bool checkConvertToDouble(string arg)
         {
             try
             {
-                double num1 = Convert.ToDouble(arg);
+                double num = Convert.ToDouble(arg);
                 return true;
             }
             catch (Exception)
@@ -105,7 +73,7 @@ namespace ConsoleApplication1
             }
         }
 
-        static bool CheckOperation(char symb)
+        static bool checkOperation(char symb)
         {
             if (symb == '+' || symb == '-' || symb == '*' || symb == '/')
             {
@@ -113,6 +81,31 @@ namespace ConsoleApplication1
             }
 
             return false;
+        }
+
+        static void checkConverting(out double num1, out char operation)
+        {
+            while (true)
+            {
+                Console.Write("Write first number: ");
+                string Num1 = Console.ReadLine();
+
+                Console.Write("Enter the symbol (+, -, *, /): ");
+                string OP = Console.ReadLine();
+                operation = Convert.ToChar(OP);
+
+                if (checkConvertToDouble(Num1) && checkOperation(operation))
+                {
+                    num1 = Convert.ToDouble(Num1);
+                    operation = Convert.ToChar(OP);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Error. Try again: ");
+                    Console.ReadLine();
+                }
+            }
         }
     }
 }
