@@ -10,51 +10,11 @@ namespace ConsoleApplication1
         {
             double num1, num2;
             char operation;
-            
+
             checkConverting(out num1, out operation);
+            checkNum2(out num2);
 
-            while (true)
-            {
-                Console.Write("Write second number: ");
-                string Num2 = Console.ReadLine();
-
-                bool ConvertToDouble = checkConvertToDouble(Num2);
-                if (!ConvertToDouble)
-                {
-                    Console.WriteLine("Error. Try again: ");
-                    Console.ReadLine();
-                    continue;
-                }
-
-                num2 = Convert.ToDouble(Num2);
-
-                if (num2 == 0 && operation == '/')
-                {
-                    Console.WriteLine("Can't divide by zero");
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            double result = 0;
-
-            switch (operation)
-            {
-                case '+':
-                    result = num1 + num2;
-                    break;
-                case '-':
-                    result = num1 - num2;
-                    break;
-                case '*':
-                    result = num1 * num2;
-                    break;
-                case '/':
-                    result = num1 / num2;
-                    break;
-            }
+            double result = switchOperation(num1, num2, operation);
 
             Console.WriteLine("Result: " + result);
             Console.ReadLine();
@@ -97,7 +57,6 @@ namespace ConsoleApplication1
                 if (checkConvertToDouble(Num1) && checkOperation(operation))
                 {
                     num1 = Convert.ToDouble(Num1);
-                    operation = Convert.ToChar(OP);
                     break;
                 }
                 else
@@ -105,6 +64,51 @@ namespace ConsoleApplication1
                     Console.WriteLine("Error. Try again: ");
                     Console.ReadLine();
                 }
+            }
+        }
+
+        static void checkNum2(out double num2)
+        {
+            while (true)
+            {
+                Console.Write("Write second number: ");
+                string Num2 = Console.ReadLine();
+
+                bool ConvertToDouble = checkConvertToDouble(Num2);
+                if (!ConvertToDouble)
+                {
+                    Console.WriteLine("Error. Try again: ");
+                    Console.ReadLine();
+                    continue;
+                }
+
+                num2 = Convert.ToDouble(Num2);
+
+                if (num2 == 0)
+                {
+                    Console.WriteLine("Can't divide by zero");
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        static double switchOperation(double num1, double num2, char operation)
+        {
+            switch (operation)
+            {
+                case '+':
+                    return num1 + num2;
+                case '-':
+                    return num1 - num2;
+                case '*':
+                    return num1 * num2;
+                case '/':
+                    return num1 / num2;
+                default:
+                    throw new ArgumentException("Invalid operation");
             }
         }
     }
